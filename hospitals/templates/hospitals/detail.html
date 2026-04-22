@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ hospital.name }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'hospital_list' %}">
+            MediWise
+        </a>
+
+        <div>
+            <a class="btn btn-outline-light" href="{% url 'hospital_list' %}">
+                Home
+            </a>
+        </div>
+        <div>
+            <a class="btn btn-success" href="{% url 'book_appointment' %}">
+                Book Appointment
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <!-- Hospital Card -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <h2>{{ hospital.name }}</h2>
+
+            <p>
+                <strong>Location:</strong> {{ hospital.location }}<br>
+                <strong>Rating:</strong> ⭐ {{ hospital.rating }}<br>
+                <strong>Cost:</strong> 💰 {{ hospital.cost_index }}
+            </p>
+
+            <h5>Specializations:</h5>
+            {% for spec in hospital.specializations.all %}
+                <span class="badge bg-primary">{{ spec.name }}</span>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <!-- Reviews -->
+     <div class="mb-4">
+    <div class="card p-3 mb-4">
+        <h4>Reviews</h4>
+
+        {% for review in reviews %}
+            <div class="border-bottom pb-2 mb-3">
+                <strong>{{ review.name }}</strong> ⭐ {{ review.rating }}<br>
+                {{ review.comment }}
+            </div>
+        {% empty %}
+            <p>No reviews yet.</p>
+        {% endfor %}
+    </div>
+    </div>
+
+    <!-- Add Review -->
+    <div class="card p-3">
+        <h4>Add Review</h4>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Submit Review</button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

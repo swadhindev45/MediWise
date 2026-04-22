@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>MediWise - Compare</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'hospital_list' %}">
+            MediWise
+        </a>
+
+        <div>
+            <a class="btn btn-outline-light" href="{% url 'hospital_list' %}">
+                Home
+            </a>
+        </div>
+        <div>
+            <a class="btn btn-success" href="{% url 'book_appointment' %}">
+                Book Appointment
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <!-- ERROR MESSAGE -->
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <h2 class="mb-3">Hospital Comparison</h2>
+
+    <!-- TABLE -->
+    <table class="table table-bordered table-striped">
+
+        <tr>
+            <th>Feature</th>
+            {% for hospital in hospitals %}
+                <th>{{ hospital.name }}</th>
+            {% endfor %}
+        </tr>
+
+        <tr>
+            <th>Location</th>
+            {% for hospital in hospitals %}
+                <td>{{ hospital.location }}</td>
+            {% endfor %}
+        </tr>
+
+        <tr>
+            <th>Rating</th>
+            {% for hospital in hospitals %}
+                <td>⭐ {{ hospital.rating }}</td>
+            {% endfor %}
+        </tr>
+
+        <tr>
+            <th>Cost</th>
+            {% for hospital in hospitals %}
+                <td>💰 {{ hospital.cost_index }}</td>
+            {% endfor %}
+        </tr>
+
+        <tr>
+            <th>Specializations</th>
+            {% for hospital in hospitals %}
+                <td>
+                    {% for spec in hospital.specializations.all %}
+                        <span class="badge bg-primary">{{ spec.name }}</span>
+                    {% endfor %}
+                </td>
+            {% endfor %}
+        </tr>
+
+    </table>
+
+    <!-- BACK BUTTON -->
+    <a href="{% url 'hospital_list' %}" class="btn btn-secondary mt-3">
+        Back
+    </a>
+
+</div>
+
+</body>
+</html>
